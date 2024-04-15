@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Exercice Transaction</title>
+
+</head>
+
+<body>
+
+ 
+
+<h2>Formulaire de Transaction</h2>
+
+ 
+
+<div>
+
+    <label for="produit">Produit :</label>
+
+    <select id="produit">
+
+        <!-- Les options seront ajoutées par JavaScript -->
+
+    </select>
+
+    <input type="text" id="nouveauProduit" placeholder="Ajouter un nouveau produit">
+
+    <button id="ajouterProduit">Ajouter Produit</button>
+
+</div>
+
+ 
+
+<div>
+
+    <label for="prix">Prix :</label>
+
+    <input type="number" id="prix">
+
+</div>
+
+ 
+
+<div>
+
+    <label for="quantite">Quantité :</label>
+
+    <input type="number" id="quantite">
+
+</div>
+
+ 
+
+<button id="ajouterTransaction">Ajouter Transaction</button>
+
+ 
+
+<h2>Transactions</h2>
+
+<table id="tableauTransactions">
+
+    <thead>
+
+    <tr>
+
+        <th>Produit</th>
+
+        <th>Prix</th>
+
+        <th>Quantité</th>
+
+        <th>Total</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+       <!-- Les transactions seront ajoutées par JavaScript -->
+
+    </tbody>
+
+   
+
+</table>
+
+ 
+
+<div>
+
+    <p>Total des prix: <span id="totalPrix">0</span></p>
+
+    <p>Nombre de transactions: <span id="nombreTransactions">0</span></p>
+
+</div>
+
+ 
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    var ajouterProduit = document.getElementById("ajouterProduit");
+
+    var produit = document.getElementById("produit");
+
+    var nouveauProduit = document.getElementById("nouveauProduit");
+
+ 
+
+    ajouterProduit.addEventListener("click", function() {
+
+        var nouveauProduitValue = nouveauProduit.value;
+
+        var option = document.createElement("option");
+
+        option.text = nouveauProduitValue;
+
+        produit.add(option);
+
+        nouveauProduit.value = "";
+
+    });
+
+ 
+
+    var ajouterTransaction = document.getElementById("ajouterTransaction");
+
+    var tableauTransactions = document.getElementById("tableauTransactions");
+
+    var totalPrix = document.getElementById("totalPrix");
+
+    var nombreTransactions = document.getElementById("nombreTransactions");
+
+    var transactions = [];
+
+   
+
+    ajouterTransaction.addEventListener("click", function() {
+
+        var produitValue = produit.value;
+
+        var prix = parseFloat(document.getElementById("prix").value);
+
+        var quantite = parseInt(document.getElementById("quantite").value);
+
+        if (isNaN(prix)) {
+
+        prix = 0;
+
+        prix.value = "0";
+
+    }
+
+    if (isNaN(quantite)) {
+
+        quantite = 0;
+
+        quantite.value = "0";
+
+    }
+
+ 
+
+        var newRow = tableauTransactions.insertRow(-1);
+
+        var cellProduit = newRow.insertCell(0);
+
+        var cellPrix = newRow.insertCell(1);
+
+        var cellQuantite = newRow.insertCell(2);
+
+        var cellTotal = newRow.insertCell(3);
+
+        cellProduit.textContent = produitValue;
+
+        cellPrix.textContent = prix.toFixed(2);
+
+        cellQuantite.textContent = quantite;
+
+        var total = prix * quantite;
+
+        cellTotal.textContent = total.toFixed(2);
+
+ 
+
+        transactions.push({
+
+            produit: produitValue,
+
+            prix: prix,
+
+            quantite: quantite,
+
+            total: total
+
+        });
+
+ 
+
+        var totalPrice = transactions.reduce(function(acc, transaction) {
+
+            return acc + transaction.total;
+
+        }, 0);
+
+        totalPrix.textContent = totalPrice.toFixed(2);
+
+ 
+
+        nombreTransactions.textContent = transactions.length;
+
+ 
+
+        document.getElementById("prix").value = "";
+
+        document.getElementById("quantite").value = "";
+
+    });
+
+});
+
+</script>
+
+ 
+
+</body>
+
+</html>
